@@ -1,0 +1,44 @@
+<h1>Welcome to Event Management System</h1>
+
+<% if user_signed_in? %>
+  <div class="user-info">
+    <h2>Welcome, <%= current_user.email %>!</h2>
+    <p><strong>Role:</strong> <%= current_user.role&.humanize || "Not assigned" %></p>
+    
+    <div class="user-actions">
+      <%= link_to "Edit Profile", edit_user_registration_path, class: "btn btn-primary" %>
+      <%= link_to "Sign Out", destroy_user_session_path, data: { "turbo-method": :delete }, class: "btn btn-secondary" %>
+      
+      <% if current_user_admin? %>
+        <%= link_to "Admin Dashboard", admin_root_path, class: "btn btn-admin" %>
+      <% end %>
+    </div>
+  </div>
+  
+  <div class="user-content">
+    <% if current_user_admin? %>
+      <h3>Admin Functions</h3>
+      <ul>
+        <li><%= link_to "Manage Users", admin_users_path %></li>
+        <li><%= link_to "View Dashboard", admin_root_path %></li>
+      </ul>
+    <% else %>
+      <h3>Attendee Functions</h3>
+      <p>Welcome to the event management system! You can browse and register for events.</p>
+    <% end %>
+  </div>
+<% else %>
+  <div class="authentication-section">
+    <h2>Please sign in to access the system</h2>
+    
+    <div class="auth-options">
+      <%= link_to "Sign Up", new_user_registration_path, class: "btn btn-primary" %>
+      <%= link_to "Sign In", new_user_session_path, class: "btn btn-secondary" %>
+    </div>
+    
+    <p class="auth-info">
+      <strong>Note:</strong> New users are registered as attendees by default. 
+      Admin access is granted separately.
+    </p>
+  </div>
+<% end %>
