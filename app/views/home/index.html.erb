@@ -5,6 +5,14 @@
     <h2>Welcome, <%= current_user.email %>!</h2>
     <p><strong>Role:</strong> <%= current_user.role&.humanize || "Not assigned" %></p>
     
+    <% unless current_user.confirmed? %>
+      <div class="alert alert-warning">
+        <p><strong>⚠️ Email not confirmed!</strong></p>
+        <p>Please check your email and click the confirmation link to fully activate your account.</p>
+        <%= link_to "Resend confirmation email", new_user_confirmation_path, class: "btn btn-sm btn-outline" %>
+      </div>
+    <% end %>
+    
     <div class="user-actions">
       <%= link_to "Edit Profile", edit_user_registration_path, class: "btn btn-primary" %>
       <%= link_to "Sign Out", destroy_user_session_path, data: { "turbo-method": :delete }, class: "btn btn-secondary" %>

@@ -33,6 +33,12 @@
   border-radius: 4px;
 }
 
+.alert-warning {
+  background-color: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffeaa7;
+}
+
 /* Authentication links styling */
 .authentication-section, .user-info, .user-content {
   margin: 20px 0;
@@ -90,6 +96,22 @@
 
 .btn-admin:hover {
   background-color: #1e7e34;
+}
+
+.btn-sm {
+  padding: 5px 10px;
+  font-size: 12px;
+}
+
+.btn-outline {
+  background-color: transparent;
+  color: #856404;
+  border: 1px solid #856404;
+}
+
+.btn-outline:hover {
+  background-color: #856404;
+  color: white;
 }
 
 .auth-info {
