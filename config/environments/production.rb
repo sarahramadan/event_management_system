@@ -89,8 +89,19 @@ Rails.application.configure do
     user_name: ENV['SMTP_USERNAME'],
     password: ENV['SMTP_PASSWORD'],
     authentication: 'plain',
-    enable_starttls_auto: true
+    enable_starttls_auto: true,
+    open_timeout: 10,
+    read_timeout: 10
   }
+  
+  # Validate required email environment variables
+  required_email_vars = %w[SMTP_ADDRESS SMTP_DOMAIN SMTP_USERNAME SMTP_PASSWORD HOST]
+  missing_vars = required_email_vars.select { |var| ENV[var].blank? }
+  
+  if missing_vars.any?
+    Rails.logger.error "Missing required email environment variables: #{missing_vars.join(', ')}"
+    Rails.logger.error "Email delivery may not work correctly. See PRODUCTION_EMAIL_SETUP.md for configuration help."
+  end
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).

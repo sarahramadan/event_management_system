@@ -1,0 +1,84 @@
+#!/usr/bin/env ruby
+
+# Environment Variables Validation Script
+# Run this script in production to ensure all required environment variables are set
+
+puts "🔍 Checking Production Environment Variables for Email Configuration..."
+puts "=" * 70
+
+required_vars = {
+  'SMTP_ADDRESS' => 'SMTP server address (e.g., smtp.gmail.com)',
+  'SMTP_PORT' => 'SMTP server port (usually 587 or 465)',
+  'SMTP_DOMAIN' => 'Your domain name (e.g., yourdomain.com)',
+  'SMTP_USERNAME' => 'SMTP username (usually your email address)',
+  'SMTP_PASSWORD' => 'SMTP password (use app password for Gmail)',
+  'HOST' => 'Your application host/domain'
+}
+
+missing_vars = []
+set_vars = []
+
+required_vars.each do |var, description|
+  value = ENV[var]
+  if value.nil? || value.empty?
+    missing_vars << { var: var, description: description }
+    puts "❌ #{var}: NOT SET - #{description}"
+  else
+    set_vars << var
+    # Don't show password values in output
+    display_value = var.include?('PASSWORD') ? '[HIDDEN]' : value
+    puts "✅ #{var}: #{display_value}"
+  end
+end
+
+puts "=" * 70
+
+if missing_vars.empty?
+  puts "🎉 All required environment variables are set!"
+  puts "✅ Email configuration should work correctly."
+  
+  # Test SMTP connection if all vars are set
+  puts "\n🔧 Testing SMTP connection..."
+  
+  begin
+    require 'net/smtp'
+    
+    smtp = Net::SMTP.new(ENV['SMTP_ADDRESS'], ENV['SMTP_PORT'].to_i)
+    smtp.enable_starttls_auto
+    smtp.start(ENV['SMTP_DOMAIN'], ENV['SMTP_USERNAME'], ENV['SMTP_PASSWORD'], :plain)
+    smtp.finish
+    
+    puts "✅ SMTP connection test successful!"
+  rescue => e
+    puts "❌ SMTP connection test failed: #{e.message}"
+    puts "🔧 Check your SMTP credentials and network connectivity."
+  end
+  
+else
+  puts "❌ Missing #{missing_vars.length} required environment variable(s):"
+  puts
+  missing_vars.each do |var_info|
+    puts "   #{var_info[:var]}: #{var_info[:description]}"
+  end
+  
+  puts "\n📝 To set these variables:"
+  puts
+  puts "   # For Heroku:"
+  missing_vars.each do |var_info|
+    puts "   heroku config:set #{var_info[:var]}=your_value"
+  end
+  
+  puts "\n   # For Docker/Local:"
+  puts "   # Add to .env.production file:"
+  missing_vars.each do |var_info|
+    puts "   #{var_info[:var]}=your_value"
+  end
+  
+  puts "\n   # For VPS/Server:"
+  puts "   # Add to ~/.bashrc or systemd service:"
+  missing_vars.each do |var_info|
+    puts "   export #{var_info[:var]}=your_value"
+  end
+end
+
+puts "\n📚 For detailed setup instructions, see: PRODUCTION_EMAIL_SETUP.md"
