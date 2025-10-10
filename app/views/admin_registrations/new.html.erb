@@ -1,0 +1,71 @@
+<div class="auth-container">
+  <div class="auth-card admin-signup">
+    <div class="auth-header">
+      <h2>Admin Registration</h2>
+      <p class="auth-subtitle">Create an admin account to manage the event system</p>
+    </div>
+
+    <% if User.admin_registration_allowed? %>
+      <%= form_with(model: @user, url: admin_registration_path, local: true) do |f| %>
+        <%= render "devise/shared/error_messages", resource: @user %>
+
+        <div class="field-group">
+          <div class="field">
+            <%= f.label :name, class: "field-label" %>
+            <%= f.text_field :name, autofocus: true, autocomplete: "name", 
+                            class: "field-input", placeholder: "Full Name" %>
+          </div>
+
+          <div class="field">
+            <%= f.label :email, class: "field-label" %>
+            <%= f.email_field :email, autocomplete: "email", 
+                              class: "field-input", placeholder: "admin@company.com" %>
+          </div>
+
+          <div class="field">
+            <%= f.label :password, class: "field-label" %>
+            <span class="field-hint">(6 characters minimum)</span>
+            <%= f.password_field :password, autocomplete: "new-password", 
+                                class: "field-input", placeholder: "Enter secure password" %>
+          </div>
+
+          <div class="field">
+            <%= f.label :password_confirmation, "Confirm Password", class: "field-label" %>
+            <%= f.password_field :password_confirmation, autocomplete: "new-password", 
+                                class: "field-input", placeholder: "Confirm password" %>
+          </div>
+        </div>
+
+        <div class="admin-notice">
+          <div class="notice-icon">⚠️</div>
+          <div class="notice-content">
+            <strong>Admin Account Notice:</strong>
+            <p>Admin accounts have full system access including user management, 
+               system configuration, and sensitive data. Only create admin accounts 
+               for authorized personnel.</p>
+            <p><strong>Current Status:</strong> <%= User.admin.count %> admin(s) registered, 
+               <%= (ENV['MAX_ADMINS']&.to_i || 5) - User.admin.count %> slots remaining.</p>
+          </div>
+        </div>
+
+        <div class="actions">
+          <%= f.submit "Create Admin Account", class: "btn btn-admin btn-large" %>
+        </div>
+      <% end %>
+    <% else %>
+      <div class="admin-notice">
+        <div class="notice-icon">🚫</div>
+        <div class="notice-content">
+          <strong>Admin Registration Unavailable</strong>
+          <p>The maximum number of admin accounts has been reached. 
+             Please contact an existing administrator to get admin access.</p>
+          <p><strong>Current Status:</strong> <%= User.admin.count %> admin(s) registered (limit reached).</p>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="auth-links">
+      <p>Already have an account? <%= link_to "Sign in", new_user_session_path, class: "auth-link" %></p>
+    </div>
+  </div>
+</div>

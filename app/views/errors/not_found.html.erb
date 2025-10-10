@@ -1,0 +1,174 @@
+<div class="error-page">
+  <div class="error-container">
+    <div class="error-code">404</div>
+    <div class="error-message">
+      <h1>Page Not Found</h1>
+      <p>Sorry, the page you are looking for doesn't exist or has been moved.</p>
+    </div>
+    
+    <div class="error-actions">
+      <%= link_to "Go Home", root_path, class: "btn btn-primary" %>
+      <%= link_to "Admin Login", new_user_session_path, class: "btn btn-outline" %>
+    </div>
+    
+    <div class="error-details">
+      <h3>What you can do:</h3>
+      <ul>
+        <li>Check the URL for typos</li>
+        <li>Go back to the <strong><%= link_to "homepage", root_path %></strong></li>
+        <li>Contact support if you believe this is an error</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<style>
+.error-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.error-container {
+  text-align: center;
+  max-width: 600px;
+  padding: 40px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.error-code {
+  font-size: 8rem;
+  font-weight: bold;
+  line-height: 1;
+  margin-bottom: 20px;
+  background: linear-gradient(45deg, #ff6b6b, #feca57);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.error-message h1 {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+  color: white;
+}
+
+.error-message p {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+  opacity: 0.9;
+}
+
+.error-actions {
+  margin: 30px 0;
+}
+
+.error-actions .btn {
+  margin: 0 10px 10px 0;
+  padding: 12px 24px;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: 600;
+  display: inline-block;
+  transition: all 0.3s ease;
+}
+
+.btn-primary {
+  background: #4CAF50;
+  color: white;
+  border: 2px solid #4CAF50;
+}
+
+.btn-primary:hover {
+  background: #45a049;
+  transform: translateY(-2px);
+}
+
+.btn-outline {
+  background: transparent;
+  color: white;
+  border: 2px solid white;
+}
+
+.btn-outline:hover {
+  background: white;
+  color: #667eea;
+  transform: translateY(-2px);
+}
+
+.btn-info {
+  background: #2196F3;
+  color: white;
+  border: 2px solid #2196F3;
+}
+
+.btn-info:hover {
+  background: #1976D2;
+  transform: translateY(-2px);
+}
+
+.error-details {
+  margin-top: 40px;
+  text-align: left;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.error-details h3 {
+  margin-bottom: 15px;
+  color: #feca57;
+}
+
+.error-details ul {
+  list-style: none;
+  padding: 0;
+}
+
+.error-details li {
+  padding: 5px 0;
+  opacity: 0.9;
+}
+
+.error-details li:before {
+  content: "→ ";
+  color: #feca57;
+  font-weight: bold;
+}
+
+.error-details a {
+  color: #feca57;
+  text-decoration: none;
+}
+
+.error-details a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .error-code {
+    font-size: 5rem;
+  }
+  
+  .error-message h1 {
+    font-size: 1.8rem;
+  }
+  
+  .error-container {
+    padding: 20px;
+    margin: 20px;
+  }
+  
+  .error-actions .btn {
+    display: block;
+    margin: 10px 0;
+  }
+}
+</style>

@@ -14,8 +14,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-
-  # Check if current user is admin
+  # Check if current user is admin (available in views)
   def current_user_admin?
     current_user&.admin?
   end
@@ -23,8 +22,12 @@ class ApplicationController < ActionController::Base
 
   private
 
+  # Configure permitted parameters for Devise controllers
   def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:role])
-    devise_parameter_sanitizer.permit(:account_update, keys: [:role])
+    # Allow name parameter for sign up and account updates
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:name])
+    devise_parameter_sanitizer.permit(:account_update, keys: [:name])
+    
+    # Role is set programmatically in specific controllers, not via forms
   end
 end

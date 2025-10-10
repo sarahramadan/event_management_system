@@ -29,6 +29,12 @@ gem "jbuilder"
 # Authentication with Devise [https://github.com/heartcombo/devise]
 gem "devise"
 
+# JWT for API authentication [https://github.com/jwt/ruby-jwt]
+gem "jwt"
+
+# CORS support for API [https://github.com/cyu/rack-cors]
+gem "rack-cors"
+
 # Use Redis adapter to run Action Cable in production
 # gem "redis", ">= 4.0.1"
 

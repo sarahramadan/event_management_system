@@ -308,3 +308,290 @@
 .actions {
   white-space: nowrap;
 }
+
+/* Registration Forms and Cards */
+.auth-container {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.auth-card {
+  background: white;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e1e5e9;
+}
+
+.auth-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.auth-header h2 {
+  color: #2c3e50;
+  margin-bottom: 8px;
+  font-size: 1.8em;
+}
+
+.auth-subtitle {
+  color: #7f8c8d;
+  margin: 0;
+  font-size: 0.9em;
+}
+
+.field-group {
+  margin-bottom: 20px;
+}
+
+.field {
+  margin-bottom: 15px;
+}
+
+.field-label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.field-input {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #e1e5e9;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: border-color 0.3s ease;
+}
+
+.field-input:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+.field-hint {
+  font-size: 0.8em;
+  color: #7f8c8d;
+  margin-left: 5px;
+}
+
+/* Admin Registration Specific */
+.admin-signup {
+  border-top: 4px solid #e74c3c;
+}
+
+.admin-notice {
+  background: #fff3cd;
+  border: 1px solid #ffeaa7;
+  border-radius: 6px;
+  padding: 15px;
+  margin: 20px 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.notice-icon {
+  font-size: 1.2em;
+  flex-shrink: 0;
+}
+
+.notice-content strong {
+  color: #856404;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.notice-content p {
+  color: #856404;
+  margin: 0;
+  font-size: 0.9em;
+  line-height: 1.4;
+}
+
+/* Registration Options on Home Page */
+.registration-options {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 30px;
+  margin: 40px 0;
+  justify-items: center;
+}
+
+.registration-card {
+  background: white;
+  border-radius: 12px;
+  padding: 30px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.registration-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+}
+
+.admin-card {
+  border-color: #e74c3c;
+  max-width: 400px;
+}
+
+.admin-card:hover {
+  border-color: #c0392b;
+}
+
+.card-icon {
+  font-size: 3em;
+  margin-bottom: 15px;
+}
+
+.registration-card h3 {
+  color: #2c3e50;
+  margin-bottom: 10px;
+  font-size: 1.3em;
+}
+
+.registration-card p {
+  color: #7f8c8d;
+  margin-bottom: 15px;
+  line-height: 1.5;
+}
+
+.feature-list {
+  list-style: none;
+  padding: 0;
+  margin: 15px 0 25px 0;
+  text-align: left;
+}
+
+.feature-list li {
+  padding: 5px 0;
+  color: #34495e;
+  font-size: 0.9em;
+}
+
+.feature-list li:before {
+  content: "✓ ";
+  color: #27ae60;
+  font-weight: bold;
+  margin-right: 8px;
+}
+
+.welcome-subtitle {
+  color: #7f8c8d;
+  font-size: 1.1em;
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+/* Button Enhancements */
+.btn-large {
+  padding: 15px 30px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 6px;
+}
+
+.btn-outline {
+  background: transparent;
+  border: 2px solid #3498db;
+  color: #3498db;
+  padding: 12px 25px;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.btn-outline:hover {
+  background: #3498db;
+  color: white;
+}
+
+/* Auth Links */
+.auth-links {
+  text-align: center;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #e1e5e9;
+}
+
+.auth-links p {
+  margin: 8px 0;
+  color: #7f8c8d;
+  font-size: 0.9em;
+}
+
+.auth-link {
+  color: #3498db;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.auth-link:hover {
+  text-decoration: underline;
+}
+
+.registration-links {
+  margin: 10px 0;
+}
+
+.registration-links a {
+  display: inline-block;
+  margin-right: 15px;
+  margin-bottom: 5px;
+}
+
+/* API Information Note */
+.api-info {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 20px;
+  border-radius: 8px;
+  margin: 20px 0;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.api-info h3 {
+  margin: 0 0 10px 0;
+  color: white;
+}
+
+.api-info p {
+  margin: 8px 0;
+  line-height: 1.5;
+}
+
+.api-info a {
+  color: #ffd700;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.api-info a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .registration-options {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .auth-container {
+    padding: 10px;
+  }
+  
+  .auth-card {
+    padding: 20px;
+  }
+  
+  .api-info {
+    padding: 15px;
+    margin: 15px 0;
+  }
+}
