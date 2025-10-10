@@ -45,14 +45,22 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
   
   # Email delivery configuration for development
-  # Use file delivery to save emails to tmp/mail for development testing
-  config.action_mailer.delivery_method = :file
-  config.action_mailer.file_settings = { location: Rails.root.join('tmp', 'mail') }
+  # Use letter_opener to preview emails in browser during development
+  config.action_mailer.delivery_method = :letter_opener
+  config.action_mailer.perform_deliveries = true
   
-  # Alternative: Use SMTP for real email testing (uncomment below and comment file delivery above)
+  # Alternative: Use file delivery to save emails to tmp/mail for development testing
+  # config.action_mailer.delivery_method = :file
+  # config.action_mailer.file_settings = { location: Rails.root.join('tmp', 'mail') }
+  
+  # Alternative: Use SMTP for real email testing (uncomment below and comment letter_opener above)
   # config.action_mailer.delivery_method = :smtp
   # config.action_mailer.smtp_settings = {
   #   address: 'localhost',
+  #   port: 1025,
+  #   enable_starttls_auto: false,
+  #   openssl_verify_mode: 'none'
+  # }
   #   port: 1025,
   #   enable_starttls_auto: false,
   #   openssl_verify_mode: 'none'
