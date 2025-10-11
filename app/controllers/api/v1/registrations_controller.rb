@@ -6,26 +6,39 @@ class Api::V1::RegistrationsController < Api::V1::BaseController
     user = User.new(user_params)
     user.role = :attendee
 
-    if user.save
-      # Generate JWT token for the user
-      token = JsonWebToken.encode(user_id: user.id)
-      
-      json_response({
-        message: Message.account_created,
-        token: token,
-        user: user_response(user)
-      }, :created)
-    else
-      json_response({
-        message: Message.account_not_created,
-        errors: user.errors.full_messages
-      }, :unprocessable_entity)
+    # Validate presence and format before Devise tries to save
+    validation_errors = validate_registration_params(user_params)
+    if validation_errors.any?
+      return render json: error_response(errors: validation_errors ,status_code: :bad_request), status: :bad_request
     end
+
+    registration_service = RegistrationFlowService.new(user)
+    result = registration_service.start_registration
+    render json: result, status: result[:status_code]
+
   end
 
   private
 
   def user_params
     params.require(:user).permit(:name, :email, :password, :password_confirmation)
+  end
+
+  # validate user input before registration
+  def validate_registration_params(params)
+    errors = []
+
+    # Basic structure validation
+    errors << 'Name is required' if params[:name].blank?
+    errors << 'Email is required' if params[:email].blank?
+    errors << 'Password is required' if params[:password].blank?
+
+    # Email format validation
+    if params[:email].present? &&
+       !(params[:email] =~ URI::MailTo::EMAIL_REGEXP)
+      errors << 'Email format is invalid'
+    end
+
+    errors
   end
 end

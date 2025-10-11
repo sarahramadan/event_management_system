@@ -66,4 +66,16 @@ class Message
   def self.access_denied_attendee
     'Access denied. Attendee role required.'
   end
+  
+  def self.api_error
+    'API request failed'
+  end
+  
+  def self.internal_server_error
+    'Internal server error occurred'
+  end
+  
+  def self.no_tickets_found
+    'No tickets found for the provided email'
+  end
 end

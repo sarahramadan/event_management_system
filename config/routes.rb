@@ -20,13 +20,7 @@ Rails.application.routes.draw do
 
   # API routes
   namespace :api do
-    namespace :v1 do
-      # Status endpoint
-      get 'status', to: 'status#index'
-      
-      # Examples endpoint
-      get 'examples', to: 'examples#index'
-      
+    namespace :v1 do   
       # Authentication routes
       post 'auth/login', to: 'sessions#create'
       delete 'auth/logout', to: 'sessions#destroy'
@@ -40,6 +34,10 @@ Rails.application.routes.draw do
       patch 'profile', to: 'profile#update'
       delete 'profile', to: 'profile#destroy'
       put 'profile/password', to: 'profile#update_password'
+      
+      # Tito API integration routes
+      get 'tito/test_connection', to: 'tito#test_connection'
+      get 'tito/attendee_tickets', to: 'tito#attendee_tickets'
     end
   end
 
@@ -51,6 +49,7 @@ Rails.application.routes.draw do
   get '/422', to: 'errors#unprocessable_entity'
   get '/500', to: 'errors#internal_server_error'
 
-  # Catch-all route for undefined paths (must be last)
-  match '*path', to: 'errors#not_found', via: :all
+ # Catch-all route for undefined non-API paths
+  match '*path', to: 'errors#not_found', via: :all,
+        constraints: lambda { |req| !req.path.start_with?('/api') }
 end

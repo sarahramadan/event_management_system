@@ -1,5 +1,6 @@
 class Api::V1::BaseController < ActionController::API
   include ExceptionHandler
+  include ResponseHelper
 
   # Called before every action on controllers
   before_action :authorize_request

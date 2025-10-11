@@ -35,6 +35,9 @@ gem "jwt"
 # CORS support for API [https://github.com/cyu/rack-cors]
 gem "rack-cors"
 
+# HTTP client for external API requests [https://github.com/jnunemaker/httparty]
+gem "httparty"
+
 # Use Redis adapter to run Action Cable in production
 # gem "redis", ">= 4.0.1"
 
