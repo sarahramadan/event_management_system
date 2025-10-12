@@ -4,6 +4,9 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable, :confirmable
          
+  # Associations
+  has_many :tickets, dependent: :restrict_with_error
+         
   # Define user roles using enum
   enum role: {
     attendee: 1,

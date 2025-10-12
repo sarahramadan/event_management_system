@@ -1,27 +1,32 @@
 class Api::V1::SessionsController < Api::V1::BaseController
   skip_before_action :authorize_request, only: [:create]
-
   # POST /api/v1/auth/login
   def create
     authenticate_params = login_params
-    auth_token = AuthenticateUser.new(authenticate_params[:email], authenticate_params[:password]).call
     
+    # First check if user exists and is an attendee
     user = User.find_by(email: authenticate_params[:email])
     
-    json_response({
-      message: Message.login_successful,
+    unless user&.attendee?
+      return render json: error_response(
+        errors: [Message.access_denied_attendee],
+        status_code: :forbidden
+      ), status: :forbidden
+    end
+    
+    # Proceed with authentication
+    auth_token = AuthenticateUser.new(authenticate_params[:email], authenticate_params[:password]).call
+
+    render json: success_response(data: {
       token: auth_token,
       user: user_response(user)
-    })
+    }), status: :ok
   end
 
   # DELETE /api/v1/auth/logout
   def destroy
     # Since JWT tokens are stateless, we'll just return success
-    # In a production app, you might want to blacklist tokens
-    json_response({
-      message: Message.logged_out_successfully
-    })
+    render json: success_response(data: {}), status: :ok
   end
 
   private

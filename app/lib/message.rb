@@ -78,4 +78,9 @@ class Message
   def self.no_tickets_found
     'No tickets found for the provided email'
   end
+  
+  def self.account_not_confirmed
+    'Please confirm your email address before logging in'
+  end
+  
 end

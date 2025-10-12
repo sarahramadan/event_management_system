@@ -20,9 +20,18 @@ class TitoApiService < BaseService
   end
 
   def find_tickets_by_attendee_email(email)
+    # Retrieve from cache if available
+    cached_tickets = Rails.cache.read("tickets_#{email.downcase}")
+    if cached_tickets.present?
+      puts "read cached tickets for #{email} #{cached_tickets}"
+      return success_response(data: cached_tickets, status_code: :ok)
+    end
+
     response = make_request(:get, "/#{@account_slug}/#{@event_slug}/tickets?search[q]=#{email}")
-    # Check if tickets array is not empty and return tickets
+    # Check if tickets array is not empty then cached and return tickets
     if response[:success] && response[:data]['tickets'].is_a?(Array) && response[:data]['tickets'].any?
+      Rails.cache.write("tickets_#{email.downcase}", response[:data]['tickets'], expires_in: 1.hour)
+      puts "write cached  #{email}"
       success_response(data: response[:data]['tickets'], status_code: response[:status_code])
     else
       error_response(errors: [Message.no_tickets_found], status_code: :not_found)

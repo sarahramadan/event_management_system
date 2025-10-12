@@ -26,14 +26,14 @@ Rails.application.routes.draw do
       delete 'auth/logout', to: 'sessions#destroy'
       
       # Registration routes
-      post 'attendees/register', to: 'registrations#create'
+      post 'register', to: 'registrations#create'
       
       # Profile management routes
       get 'profile', to: 'profile#show'
-      put 'profile', to: 'profile#update'
-      patch 'profile', to: 'profile#update'
-      delete 'profile', to: 'profile#destroy'
-      put 'profile/password', to: 'profile#update_password'
+
+      # Ticket routes
+      resources :tickets, only: [:show]
+
       
       # Tito API integration routes
       get 'tito/test_connection', to: 'tito#test_connection'

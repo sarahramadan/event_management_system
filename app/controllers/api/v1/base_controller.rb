@@ -4,7 +4,7 @@ class Api::V1::BaseController < ActionController::API
 
   # Called before every action on controllers
   before_action :authorize_request
-  
+
   attr_reader :current_user
 
   private
@@ -14,12 +14,16 @@ class Api::V1::BaseController < ActionController::API
     begin
       @current_user = (AuthorizeApiRequest.new(request.headers).call)[:user]
     rescue StandardError => e
-      json_response({ message: Message.unauthorized, error: e.message }, :unauthorized)
+      response = error_response(errors: [e.message], status_code: :unauthorized)
+      render json: response, status: response[:status_code]
     end
   end
-
-  def json_response(object, status = :ok)
-    render json: object, status: status
+ 
+  protected
+  def ensure_attendee
+    unless current_user&.attendee?
+     render json: error_response(errors: [Message.access_denied_attendee], status_code: :forbidden), status: :forbidden
+    end
   end
 
   # Standardized user response format for all API controllers
