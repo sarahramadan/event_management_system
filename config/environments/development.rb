@@ -17,6 +17,7 @@ Rails.application.configure do
 
   # Enable server timing
   config.server_timing = true
+  config.hosts << "cef03303648a6563d4f3c2588ef0c5e7.serveo.net"
 
   # Enable/disable caching. By default caching is disabled.
   # Run rails dev:cache to toggle caching.

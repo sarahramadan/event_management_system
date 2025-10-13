@@ -83,4 +83,7 @@ class Message
     'Please confirm your email address before logging in'
   end
   
+  def self.access_denied
+    'Ticket access denied'
+  end
 end

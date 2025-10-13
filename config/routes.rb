@@ -34,7 +34,9 @@ Rails.application.routes.draw do
       # Ticket routes
       resources :tickets, only: [:show]
 
-      
+      # Tito webhook endpoint
+      post 'webhook', to: 'tito_webhooks#receive'
+
       # Tito API integration routes
       get 'tito/test_connection', to: 'tito#test_connection'
       get 'tito/attendee_tickets', to: 'tito#attendee_tickets'

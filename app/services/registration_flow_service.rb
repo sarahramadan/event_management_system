@@ -48,19 +48,14 @@ class RegistrationFlowService < BaseService
       reference_id: ticket_data['id'],
       reference_code: ticket_data['reference'],
       ticket_status: ticket_status,
-      purchase_date: parse_tito_date(ticket_data['created_at']),
-      release_name: ticket_data['release_title']
+      purchase_date: parse_date(ticket_data['created_at']),
+      release_name: ticket_data['release_title'],
+      quantity: 1,
+      price: ticket_data['price'].to_f / 100.0
     )
   end
 
-  def parse_tito_date(date_string)
-    return nil if date_string.blank?
-    
-    begin
-      DateTime.parse(date_string)
-    rescue ArgumentError => e
-      Rails.logger.warn("Could not parse date '#{date_string}': #{e.message}")
-      nil
-    end
+  def parse_date(value)
+    Time.zone.parse(value) rescue nil
   end
 end
