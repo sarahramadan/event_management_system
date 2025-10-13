@@ -16,3 +16,21 @@ statuses.each do |status|
 end
 
 puts "✅ Ticket statuses seeded successfully!"
+
+# Create admin user
+admin_user = User.find_or_create_by!(email: 'admin@eventmanagement.com') do |user|
+  user.name = 'System Administrator'
+  user.role = 'admin'
+  user.password = 'AdminPassword123!'
+  user.password_confirmation = 'AdminPassword123!'
+  user.confirmed_at = Time.current
+  puts "Created admin user: #{user.email}"
+end
+
+if admin_user.persisted?
+  puts "Admin user already exists: #{admin_user.email}"
+else
+  puts "Admin user created successfully: #{admin_user.email}"
+end
+
+puts "Seeds completed successfully!"
