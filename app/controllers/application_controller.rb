@@ -7,6 +7,11 @@ class ApplicationController < ActionController::Base
 
   protected
 
+  def set_user
+    @user = User.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    redirect_to admin_users_path, alert: 'User not found.'
+  end
   # Helper method to require admin access
   def require_admin!
     unless current_user&.admin?
@@ -22,12 +27,9 @@ class ApplicationController < ActionController::Base
 
   private
 
-  # Configure permitted parameters for Devise controllers
   def configure_permitted_parameters
     # Allow name parameter for sign up and account updates
     devise_parameter_sanitizer.permit(:sign_up, keys: [:name])
     devise_parameter_sanitizer.permit(:account_update, keys: [:name])
-    
-    # Role is set programmatically in specific controllers, not via forms
   end
 end

@@ -15,7 +15,8 @@ Rails.application.routes.draw do
   # Admin routes - accessible only to admin users
   namespace :admin do
     root 'dashboard#index'
-    resources :users, only: [:index, :show, :edit, :update, :destroy]
+    resources :tickets, only: [:index, :show, :destroy]
+    resources :users, only: [:index, :show]
   end
 
   # API routes

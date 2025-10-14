@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_10_13_160324) do
+ActiveRecord::Schema[7.1].define(version: 2025_10_13_185647) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -33,6 +33,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_10_13_160324) do
     t.string "reference_code"
     t.integer "quantity"
     t.decimal "price"
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_tickets_on_deleted_at"
     t.index ["purchase_date"], name: "index_tickets_on_purchase_date"
     t.index ["reference_code"], name: "index_tickets_on_reference_code"
     t.index ["reference_id"], name: "index_tickets_on_reference_id", unique: true

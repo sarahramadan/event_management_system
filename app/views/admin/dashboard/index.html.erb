@@ -1,59 +1,60 @@
-<h1>Admin Dashboard</h1>
 
-<div class="dashboard-stats">
-  <h2>System Statistics</h2>
-  
-  <div class="stats-grid">
-    <div class="stat-card">
-      <h3>Total Users</h3>
-      <p class="stat-number"><%= @total_users %></p>
-    </div>
-    
-    <div class="stat-card">
-      <h3>Admins</h3>
-      <p class="stat-number"><%= @total_admins %></p>
-    </div>
-    
-    <div class="stat-card">
-      <h3>Regular Users</h3>
-      <p class="stat-number"><%= @total_attendees %></p>
-    </div>
+<div class="page-header">
+  <div class="container">
+    <h1 class="page-title">Admin Dashboard</h1>
+    <p class="page-subtitle">Welcome to the Event Management System</p>
   </div>
 </div>
 
-<div class="quick-actions">
-  <h2>Quick Actions</h2>
-  <%= link_to "Manage Users", admin_users_path, class: "btn btn-primary" %>
-  <%= link_to "Back to Home", root_path, class: "btn btn-secondary" %>
-</div>
+<div class="container">
+  <div class="card-grid card-grid-2 mb-4">
+    <div class="dashboard-stat-card">
+      <div class="stat-icon"><i class="fas fa-users"></i></div>
+      <div class="card-title">Attendee Users</div>
+      <div class="stat-number"><%= User.where(role: 'attendee').count %></div>
+      <div class="card-subtitle">Total registered attendees</div>
+      <div class="card-footer">
+        <%= link_to "Manage Users", admin_users_path, class: "btn btn-primary btn-small" %>
+      </div>
+    </div>
+    <div class="dashboard-stat-card card-orange">
+      <div class="stat-icon"><i class="fas fa-ticket-alt"></i></div>
+      <div class="card-title">Event Tickets</div>
+      <div class="stat-number"><%= Ticket.count %></div>
+      <div class="card-subtitle">Total tickets in system</div>
+      <div class="card-footer">
+        <%= link_to "Manage Tickets", admin_tickets_path, class: "btn btn-primary btn-small" %>
+      </div>
+    </div>
+  </div>
 
-<div class="recent-users">
-  <h2>Recent Users</h2>
-  <% if @recent_users.any? %>
-    <table class="users-table">
-      <thead>
-        <tr>
-          <th>Email</th>
-          <th>Role</th>
-          <th>Joined</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @recent_users.each do |user| %>
-          <tr>
-            <td><%= user.email %></td>
-            <td><span class="role-badge role-<%= user.role %>"><%= user.role.humanize %></span></td>
-            <td><%= user.created_at.strftime("%B %d, %Y") %></td>
-            <td>
-              <%= link_to "View", admin_user_path(user), class: "btn-small btn-primary" %>
-              <%= link_to "Edit", edit_admin_user_path(user), class: "btn-small btn-secondary" %>
-            </td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-  <% else %>
-    <p>No users found.</p>
-  <% end %>
+  <div class="system-overview-section mb-4">
+    <div class="section-header">
+      <div class="section-title">System Overview</div>
+      <div class="section-subtitle">Key metrics and performance indicators</div>
+    </div>
+    <div class="stats-grid">
+      <div class="mini-stat-card">
+        <div class="mini-stat-icon"><i class="fas fa-user"></i></div>
+        <div class="mini-stat-content">
+          <div class="mini-stat-number"><%= User.count %></div>
+          <div class="mini-stat-label">Total Users</div>
+        </div>
+      </div>
+      <div class="mini-stat-card">
+        <div class="mini-stat-icon"><i class="fas fa-tags"></i></div>
+        <div class="mini-stat-content">
+          <div class="mini-stat-number"><%= TicketStatus.count %></div>
+          <div class="mini-stat-label">Ticket Statuses</div>
+        </div>
+      </div>
+      <div class="mini-stat-card">
+        <div class="mini-stat-icon"><i class="fas fa-user-shield"></i></div>
+        <div class="mini-stat-content">
+          <div class="mini-stat-number"><%= User.where(role: 'admin').count %></div>
+          <div class="mini-stat-label">Admin Users</div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

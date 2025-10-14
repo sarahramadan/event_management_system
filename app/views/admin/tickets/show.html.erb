@@ -1,0 +1,114 @@
+<!-- filepath: c:\MOJ\Personal\Sarah\Ruby\event_management_system\app\views\admin\tickets\show.html.erb -->
+<div class="page-wrapper">
+  <div class="page-header">
+    <div class="container">
+      <h1 class="page-title">🎫 Ticket Details</h1>
+      <p class="page-subtitle">Detailed information for ticket #<%= @ticket.reference_id %></p>
+      <%= link_to "← Back to All Tickets", admin_tickets_path, class: "btn btn-outline" %>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="card-grid card-grid-2">
+      <!-- Ticket Information Card -->
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Ticket Information</h3>
+          <p class="card-subtitle">Core ticket details and status</p>
+        </div>
+        <div class="card-body">
+          <div class="form-row form-row-2">
+            <div class="form-group">
+              <label class="form-label">Reference ID</label>
+              <p><code class="font-semibold text-primary"><%= @ticket.reference_id %></code></p>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Status</label>
+              <p>
+                <% if @ticket.ticket_status %>
+                  <span class="status-badge status-<%= @ticket.ticket_status.name.downcase %>">
+                    <%= @ticket.ticket_status.name.humanize %>
+                  </span>
+                <% else %>
+                  <span class="status-badge status-unassigned">No Status</span>
+                <% end %>
+              </p>
+            </div>
+          </div>
+          <div class="form-row form-row-2">
+            <div class="form-group">
+              <label class="form-label">Unit Price</label>
+              <p class="font-semibold text-success">$<%= number_with_precision(@ticket.price, precision: 2) %></p>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Quantity</label>
+              <p class="font-semibold"><%= @ticket.quantity || 0 %></p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Total Amount</label>
+            <p class="font-semibold text-success text-lg">$<%= number_with_precision(@ticket.total_amount, precision: 2) %></p>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Purchase Date</label>
+            <p><%= @ticket.purchase_date&.strftime('%B %d, %Y at %I:%M %p') || 'Not specified' %></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- User Information Card -->
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Ticket Holder</h3>
+          <p class="card-subtitle">Details about the assigned user</p>
+        </div>
+        <div class="card-body">
+          <% if @ticket.user %>
+            <div class="form-row form-row-2">
+              <div class="form-group">
+                <label class="form-label">Full Name</label>
+                <p class="font-semibold"><%= @ticket.user.name %></p>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Email Address</label>
+                <p><%= @ticket.user.email %></p>
+              </div>
+            </div>
+            <div class="form-row form-row-2">
+              <div class="form-group">
+                <label class="form-label">Phone Number</label>
+                <p><%= @ticket.user.phone_number || '<span class="text-gray-500">Not provided</span>'.html_safe %></p>
+              </div>
+              <div class="form-group">
+                <label class="form-label">User Role</label>
+                <p><span class="status-badge status-info"><%= @ticket.user.role.humanize %></span></p>
+              </div>
+            </div>
+             <div class="mt-4">
+              <%= link_to 'View User Profile', admin_user_path(@ticket.user), class: 'btn btn-secondary' %>
+            </div>
+          <% else %>
+            <div class="text-center py-6">
+              <h4 class="font-semibold text-gray-600">No User Assigned</h4>
+              <p class="text-gray-400 mt-2">This ticket has not been assigned to a user.</p>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="card mt-6">
+        <div class="card-header">
+            <h3 class="card-title">Admin Actions</h3>
+        </div>
+        <div class="card-footer">
+            <%= button_to 'Delete Ticket', admin_ticket_path(@ticket), 
+                method: :delete,
+                class: 'btn btn-danger',
+                data: { 
+                    turbo_confirm: "Are you sure you want to permanently delete ticket #{@ticket.reference_code}?"
+                } %>
+        </div>
+    </div>
+  </div>
+</div>

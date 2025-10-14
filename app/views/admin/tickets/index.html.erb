@@ -1,0 +1,132 @@
+<div class="page-wrapper">
+  <div class="page-header">
+    <div class="container">
+      <h1 class="page-title">🎫 Ticket Management</h1>
+      <p class="page-subtitle">Monitor and manage all event tickets</p>
+      <%= link_to "← Back to Dashboard", admin_root_path, class: "btn btn-outline" %>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- Search and Filter Section -->
+    <div class="card mb-6">
+      <div class="card-body">
+        <%= form_with url: admin_tickets_path, method: :get, local: true do |form| %>
+          <div class="form-row form-row-auto">
+            <div class="form-group mb-0">
+              <%= form.text_field :search, 
+                    placeholder: "Search by name, email, or ticket reference...", 
+                    value: params[:search],
+                    class: "form-input" %>
+            </div>
+            
+            <div class="flex gap-2">
+              <%= form.select :status, 
+                    options_for_select([['All Statuses', 'all']] + (@status_options || []), params[:status]),
+                    {}, 
+                    { class: "form-select" } %>
+              <%= form.submit "Filter", class: "btn btn-primary" %>
+              <%= link_to "Clear", admin_tickets_path, class: "btn btn-secondary" %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Tickets Table -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <h3 class="card-title"> All Tickets </h3>
+          <p class="card-subtitle">
+            Showing <%= @tickets.count %> of <%= @total_tickets %> tickets
+            <% if @total_pages > 1 %>
+              (Page <%= @page %> of <%= @total_pages %>)
+            <% end %>
+          </p>
+        </div>
+      </div>
+
+      <% if @tickets.any? %>
+        <div class="table-container">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Ticket Holder</th>
+                <th>Reference</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @tickets.each do |ticket| %>
+                <tr>
+                  <td>
+                    <div class="flex items-center gap-3">
+                      <div class="flex items-center justify-center w-8 h-8 bg-gray-100 rounded-full">
+                        👤
+                      </div>
+                      <div>
+                        <div class="font-semibold text-gray-900"><%= ticket.user&.name || 'No Name' %></div>
+                        <div class="text-gray-500 text-sm"><%= ticket.user&.email || 'Unassigned' %></div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <code class="font-semibold text-primary"><%= ticket.reference_code %></code>
+                  </td>
+                  <td>
+                    <% if ticket.ticket_status %>
+                      <span class="status-badge status-<%= ticket.ticket_status.name.downcase %>">
+                        <%= ticket.ticket_status.name.humanize %>
+                      </span>
+                    <% else %>
+                      <span class="status-badge status-unassigned">
+                        No Status
+                      </span>
+                    <% end %>
+                  </td>
+                  <td>
+                    <div class="flex gap-2">
+                      <%= link_to 'View', admin_ticket_path(ticket), class: 'btn btn-info btn-small' %>
+                      <%= button_to 'Delete', admin_ticket_path(ticket), 
+                                                            method: :delete,
+                                                            class: 'btn btn-danger btn-small',
+                                                            form_class: 'inline',
+                                                            data: { 
+                                                              turbo_confirm: "Are you sure you want to delete ticket #{ticket.reference_code}?"
+                                                            } %>
+                    </div>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      <% else %>
+        <div class="card-body">
+          <div class="text-center py-6">
+            <h4 class="font-semibold text-gray-600">No Tickets Found</h4>
+            <p class="text-gray-400 mt-2">Your search or filter criteria did not match any tickets.</p>
+            <%= link_to "Clear Filters and Search", admin_tickets_path, class: "btn btn-primary mt-4" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Pagination -->
+    <% if @total_pages > 1 %>
+      <div class="flex justify-center mt-6">
+        <nav>
+          <ul class="flex gap-2">
+            <% (1..@total_pages).each do |p| %>
+              <li>
+                <%= link_to p, admin_tickets_path(page: p, search: params[:search], status: params[:status]), class: "btn #{p == @page ? 'btn-primary' : 'btn-outline'}" %>
+              </li>
+            <% end %>
+          </ul>
+        </nav>
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -11,6 +11,16 @@ class Ticket < ApplicationRecord
   validates :price, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validates :quantity, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
 
+  default_scope { where(deleted_at: nil) }
+
+  def soft_delete
+    update(deleted_at: Time.current)
+  end
+
+  def deleted?
+    deleted_at.present?
+  end
+
   def status_name
     ticket_status&.name
   end
@@ -24,15 +34,16 @@ class Ticket < ApplicationRecord
       release_name: release_name,
       quantity: quantity,
       price: price.to_f,
-      total_amount: (quantity * price).to_f,
+      total_amount: total_amount,
       purchase_date: purchase_date&.iso8601,
       assigned_user: user&.email,
       created_at: created_at.iso8601,
       updated_at: updated_at.iso8601
     }
   end
-  
+
   def total_amount
-    quantity * price
+    return 0.0 if quantity.nil? || price.nil?
+    (quantity || 0) * (price || 0.0)
   end
 end
