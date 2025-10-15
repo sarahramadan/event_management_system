@@ -32,6 +32,7 @@ ssh -R 80:localhost:4000 serveo.net
    - **EVENT_SLUG**: Your event slug
    - **API_TOKEN**: Generate from Tito API settings
    - **WEBHOOK_SECRET**: Generate webhook secret
+4. Update the Webhook setting with the URL https://your-serveo-url.serveo.net/api/v1/webhook
 
 ### Step 5: Create Environment Configuration
 Create a new `.env.local` file in the project root with the following variables:
