@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  mount Rswag::Ui::Engine => '/api-docs'
+  mount Rswag::Api::Engine => '/api-docs'
   # Default Devise routes for users (login, password reset, etc.)
   # Skip registrations since we use custom admin registration and API for regular users
   devise_for :users, controllers: {
@@ -17,6 +19,7 @@ Rails.application.routes.draw do
     root 'dashboard#index'
     resources :tickets, only: [:index, :show, :destroy]
     resources :users, only: [:index, :show]
+    resource :environment_variables, only: [:show], controller: 'environment_variables'
   end
 
   # API routes

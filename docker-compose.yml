@@ -1,47 +1,61 @@
-version: '3.8'
-
 services:
   db:
     image: postgres:15-alpine
     environment:
-      POSTGRES_DB: event_management_system_development
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: ${DB_NAME:-event_management_system_development}
+      POSTGRES_USER: ${DB_USERNAME:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
       - "5434:5432"
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME:-postgres}"]
+      interval: 5s
+      timeout: 3s
+      retries: 15
 
   web:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+      args:
+        DEVELOPMENT_HOSTS: ${DEVELOPMENT_HOSTS}
+    env_file:
+      - .env.local
     environment:
-      RAILS_ENV: development
+      DEVELOPMENT_HOSTS: ${DEVELOPMENT_HOSTS}
       DB_HOST: db
-      DB_USERNAME: postgres
-      DB_PASSWORD: postgres
-      DB_NAME: event_management_system_development
+      DB_PORT: 5432
+      RAILS_ENV: development
+      RACK_ENV: development
+      NODE_ENV: development
+    # The command now just starts the server.
+    # db:prepare is handled by the entrypoint script if needed.
+    command: >
+      bash -c "
+        bin/rails db:prepare &&
+        bin/rails db:seed &&
+        bin/rails server -b 0.0.0.0 -p 3000"
+    volumes:
+      - .:/rails:cached
+      - bundle_cache:/usr/local/bundle
+      - rails_tmp:/rails/tmp
+      - rails_log:/rails/log
+      - rails_storage:/rails/storage
     ports:
       - "4000:3000"
     depends_on:
       db:
         condition: service_healthy
-    volumes:
-      - .:/rails
-      - bundle_cache:/usr/local/bundle
-    command: >
-      bash -c "
-        bundle install &&
-        bundle exec rails db:prepare &&
-        bundle exec rails server -b 0.0.0.0
-      "
+    restart: unless-stopped
     stdin_open: true
     tty: true
 
 volumes:
   postgres_data:
   bundle_cache:
+  rails_tmp:
+  rails_log:
+  rails_storage:

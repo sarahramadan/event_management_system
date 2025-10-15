@@ -22,6 +22,10 @@
               <label class="form-label">Reference ID</label>
               <p><code class="font-semibold text-primary"><%= @ticket.reference_id %></code></p>
             </div>
+             <div class="form-group">
+              <label class="form-label">Reference Code</label>
+              <p><code class="font-semibold text-primary"><%= @ticket.reference_code %></code></p>
+            </div>
             <div class="form-group">
               <label class="form-label">Status</label>
               <p>
@@ -60,7 +64,6 @@
       <div class="card">
         <div class="card-header">
           <h3 class="card-title">Ticket Holder</h3>
-          <p class="card-subtitle">Details about the assigned user</p>
         </div>
         <div class="card-body">
           <% if @ticket.user %>

@@ -1,4 +1,4 @@
-<h1>Welcome to Event Management System</h1>
+<h1 class="text-center">Welcome to Event Management System</h1>
 
 <% if user_signed_in? %>
   <div class="user-info">
@@ -7,7 +7,7 @@
     
     <% unless current_user.confirmed? %>
       <div class="alert alert-warning">
-        <p><strong>⚠️ Email not confirmed!</strong></p>
+        <p><strong>Email not confirmed!</strong></p>
         <p>Please check your email and click the confirmation link to fully activate your account.</p>
         <%= link_to "Resend confirmation email", new_user_confirmation_path, class: "btn btn-sm btn-outline" %>
       </div>
@@ -18,7 +18,7 @@
         <%= link_to "Admin Dashboard", admin_root_path, class: "btn btn-admin" %>
       <% else %>
         <p class="api-note">
-          <strong>📱 Profile Management:</strong> Use our API endpoints for profile updates.
+          <strong>Profile Management:</strong> Use our API endpoints for profile updates.
         </p>
       <% end %>
       <%= link_to "Sign Out", destroy_user_session_path, data: { "turbo-method": :delete }, class: "btn btn-secondary" %>
@@ -39,24 +39,22 @@
   </div>
 <% else %>
   <div class="authentication-section">
-    <h2>Welcome to Event Management System</h2>
     <p class="welcome-subtitle">Join our community to discover and manage events</p>
     
     <div class="registration-options">
       <div class="registration-card admin-card">
         <div class="card-icon">⚙️</div>
         <h3>Admin Access</h3>
-        <p>Manage the system, create events, and oversee user activities.</p>
         <ul class="feature-list">
           <li>User management</li>
-          <li>System administration</li>
-          <li>Analytics dashboard</li>
+          <li>Ticket management</li>
+          <li>User API management</li>
         </ul>
         <%= link_to "Admin Registration", new_admin_registration_path, class: "btn btn-admin btn-large" %>
       </div>
     </div>
     
-    <div class="auth-options">
+    <div class="auth-options text-center">
       <%= link_to "Already have an account? Sign In", new_user_session_path, class: "btn btn-outline" %>
     </div>
     

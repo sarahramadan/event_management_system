@@ -26,35 +26,16 @@
         <%= link_to "Manage Tickets", admin_tickets_path, class: "btn btn-primary btn-small" %>
       </div>
     </div>
-  </div>
-
-  <div class="system-overview-section mb-4">
-    <div class="section-header">
-      <div class="section-title">System Overview</div>
-      <div class="section-subtitle">Key metrics and performance indicators</div>
-    </div>
-    <div class="stats-grid">
-      <div class="mini-stat-card">
-        <div class="mini-stat-icon"><i class="fas fa-user"></i></div>
-        <div class="mini-stat-content">
-          <div class="mini-stat-number"><%= User.count %></div>
-          <div class="mini-stat-label">Total Users</div>
+    <% if Rails.env.development? %>
+      <div class="dashboard-stat-card card-green">
+        <div class="stat-icon"><i class="fas fa-cogs"></i></div>
+        <div class="card-title">Check Environment Variables AND User API Documentation</div>
+        <div class="stat-number"></div>
+        <div class="card-subtitle">View configuration settings and API documentation</div>
+        <div class="card-footer">
+          <%= link_to "View Variables", admin_environment_variables_path, class: "btn btn-primary btn-small" %>
         </div>
       </div>
-      <div class="mini-stat-card">
-        <div class="mini-stat-icon"><i class="fas fa-tags"></i></div>
-        <div class="mini-stat-content">
-          <div class="mini-stat-number"><%= TicketStatus.count %></div>
-          <div class="mini-stat-label">Ticket Statuses</div>
-        </div>
-      </div>
-      <div class="mini-stat-card">
-        <div class="mini-stat-icon"><i class="fas fa-user-shield"></i></div>
-        <div class="mini-stat-content">
-          <div class="mini-stat-number"><%= User.where(role: 'admin').count %></div>
-          <div class="mini-stat-label">Admin Users</div>
-        </div>
-      </div>
-    </div>
+  <% end %>
   </div>
 </div>

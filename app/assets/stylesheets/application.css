@@ -352,6 +352,30 @@ html, body {
   background: linear-gradient(135deg, var(--warning), #f97316);
 }
 
+.dashboard-stat-card.card-green::before {
+  background: linear-gradient(90deg, var(--success), #059669);
+}
+
+.dashboard-stat-card.card-green .stat-icon {
+  background: linear-gradient(135deg, var(--success), #059669);
+}
+
+.dashboard-stat-card.card-blue::before {
+  background: linear-gradient(90deg, var(--info), #0284c7);
+}
+
+.dashboard-stat-card.card-blue .stat-icon {
+  background: linear-gradient(135deg, var(--info), #0284c7);
+}
+
+.dashboard-stat-card.card-purple::before {
+  background: linear-gradient(90deg, #8b5cf6, #7c3aed);
+}
+
+.dashboard-stat-card.card-purple .stat-icon {
+  background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+}
+
 /* ========================================
    GRID LAYOUTS
    ======================================== */

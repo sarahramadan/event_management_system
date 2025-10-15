@@ -1,0 +1,515 @@
+---
+openapi: 3.0.1
+info:
+  title: Event Management System API
+  version: v1
+  description: API for Event Management System with Tito integration
+paths:
+  "/api/v1/profile":
+    get:
+      summary: Get user profile
+      tags:
+      - Profile
+      security:
+      - Bearer: []
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      email:
+                        type: string
+                        example: john@example.com
+                      name:
+                        type: string
+                        example: John Doe
+                      phone_number:
+                        type: string
+                        example: "+1234567890"
+                      role:
+                        type: string
+                        example: attendee
+                  tickets:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        reference_id:
+                          type: string
+                          example: ABC123
+                        email:
+                          type: string
+                          example: john@example.com
+                        name:
+                          type: string
+                          example: John Doe
+                        phone_number:
+                          type: string
+                          example: "+1234567890"
+                        state_name:
+                          type: string
+                          example: complete
+                        ticket_status:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                              example: 1
+                            name:
+                              type: string
+                              example: Confirmed
+        '401':
+          description: unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Unauthorized
+  "/api/v1/auth/login":
+    post:
+      summary: Login user
+      tags:
+      - Authentication
+      parameters: []
+      responses:
+        '200':
+          description: successful login
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Login successful
+                  token:
+                    type: string
+                    example: eyJhbGciOiJIUzI1NiJ9...
+                  user:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      email:
+                        type: string
+                        example: user@example.com
+                      name:
+                        type: string
+                        example: John Doe
+                      role:
+                        type: string
+                        example: attendee
+        '401':
+          description: unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Invalid credentials
+        '400':
+          description: bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Email and password are required
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: user@example.com
+                password:
+                  type: string
+                  example: password123
+              required:
+              - email
+              - password
+  "/api/v1/auth/logout":
+    delete:
+      summary: Logout user
+      tags:
+      - Authentication
+      security:
+      - Bearer: []
+      responses:
+        '200':
+          description: successful logout
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Logout successful
+        '401':
+          description: unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Unauthorized
+  "/api/v1/tickets/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: Ticket ID
+      required: true
+      schema:
+        type: integer
+    get:
+      summary: Get ticket details
+      tags:
+      - Tickets
+      security:
+      - Bearer: []
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ticket:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      reference_id:
+                        type: string
+                        example: ABC123
+                      email:
+                        type: string
+                        example: john@example.com
+                      name:
+                        type: string
+                        example: John Doe
+                      phone_number:
+                        type: string
+                        example: "+1234567890"
+                      state_name:
+                        type: string
+                        example: complete
+                      ticket_status:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                            example: 1
+                          name:
+                            type: string
+                            example: Confirmed
+                      user:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                            example: 1
+                          email:
+                            type: string
+                            example: john@example.com
+                          name:
+                            type: string
+                            example: John Doe
+        '404':
+          description: ticket not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Ticket not found
+        '401':
+          description: unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Unauthorized
+  "/api/v1/tito/test_connection":
+    get:
+      summary: Test Tito API connection
+      tags:
+      - Tito Integration
+      responses:
+        '200':
+          description: connection successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        example: Connection successful
+        '503':
+          description: service unavailable
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  error:
+                    type: string
+                    example: Service Unavailable
+  "/api/v1/tito/attendee_tickets":
+    get:
+      summary: Get attendee tickets from Tito
+      tags:
+      - Tito Integration
+      parameters:
+      - name: email
+        in: query
+        required: true
+        description: Email address to search for tickets
+        schema:
+          type: string
+      responses:
+        '200':
+          description: tickets found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: '123'
+                        reference:
+                          type: string
+                          example: ABC123
+                        email:
+                          type: string
+                          example: john@example.com
+                        name:
+                          type: string
+                          example: John Doe
+                        phone_number:
+                          type: string
+                          example: "+1234567890"
+                        state_name:
+                          type: string
+                          example: complete
+        '404':
+          description: no tickets found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  errors:
+                    type: array
+                    items:
+                      type: string
+                    example:
+                    - No tickets found for this email address
+        '400':
+          description: bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Email parameter is required
+        '429':
+          description: rate limited
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  error:
+                    type: string
+                    example: Rate Limited - Too many requests
+        '500':
+          description: internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  error:
+                    type: string
+                    example: Internal Server Error
+        '503':
+          description: service unavailable
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Missing Tito API credentials: account_slug, event_slug'
+  "/api/v1/webhook":
+    post:
+      summary: Receive Tito webhook
+      tags:
+      - Webhooks
+      parameters:
+      - name: X-Webhook-Signature
+        in: header
+        description: Webhook signature for verification
+        schema:
+          type: string
+      responses:
+        '200':
+          description: webhook processed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Webhook processed successfully
+        '401':
+          description: invalid signature
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Invalid webhook signature
+        '400':
+          description: bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Invalid JSON payload
+        '422':
+          description: processing failed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: string
+                    example:
+                    - Processing failed
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                webhook:
+                  type: object
+                  properties:
+                    url:
+                      type: string
+                      example: https://api.tito.io/webhooks/123
+                ticket:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: abc123
+                    reference:
+                      type: string
+                      example: REF123
+                    slug:
+                      type: string
+                      example: ref123
+                    email:
+                      type: string
+                      example: john@example.com
+                    name:
+                      type: string
+                      example: John Doe
+                    phone_number:
+                      type: string
+                      example: "+1234567890"
+                    state_name:
+                      type: string
+                      example: complete
+              required:
+              - webhook
+              - ticket
+servers:
+- url: http://localhost:3000
+  description: Development server
+- url: https://{defaultHost}
+  variables:
+    defaultHost:
+      default: www.example.com
+  description: Production server
+components:
+  securitySchemes:
+    Bearer:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

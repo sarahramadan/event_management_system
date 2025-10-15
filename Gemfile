@@ -71,6 +71,12 @@ group :development do
   # Preview emails in browser during development [https://github.com/ryanb/letter_opener]
   gem "letter_opener"
 
+  # API documentation
+  gem 'rspec-rails'
+  gem 'rswag-api'
+  gem 'rswag-ui'
+  gem 'rswag-specs'
+
   # Add speed badges [https://github.com/MiniProfiler/rack-mini-profiler]
   # gem "rack-mini-profiler"
 

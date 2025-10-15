@@ -1,0 +1,49 @@
+<div class="page-wrapper">
+
+  <div class="page-header">
+    <div class="container">
+      <h1 class="page-title">Environment Variables And API Documentation</h1>
+      <%= link_to "← Back to Dashboard", admin_root_path, class: "btn btn-outline" %>
+    </div>
+  </div>
+<div class="container">
+  <div class="max-w-4xl mx-auto">
+    <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+      <div class="p-6">
+        <!-- Environment Variables Display -->
+        <div class="mb-6">
+          <h2 class="text-lg font-semibold text-gray-700 mb-3">Current Environment Variables</h2>
+          <div class="bg-gray-100 rounded-lg p-4">
+            <pre id="env-vars-json" class="text-sm text-gray-800 whitespace-pre-wrap"><%= JSON.pretty_generate(@variables) %></pre>
+          </div>
+        </div>
+
+        <!-- API Documentation Links -->
+        <div class="mb-6">
+          <h2 class="text-lg font-semibold text-gray-700 mb-3">API Documentation</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <a href="/api-docs" target="_blank" class="block p-4 bg-blue-50 border border-blue-200 rounded-lg hover:bg-blue-100 transition-colors">
+              <div class="flex items-center">
+                <div>
+                  <p class="text-sm text-blue-600">Swagger Documentation -> API documentation and testing</p>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+/* Additional styles for better JSON formatting */
+#env-vars-json {
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  line-height: 1.5;
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 4px;
+  padding: 12px;
+  overflow-x: auto;
+}
+</style>

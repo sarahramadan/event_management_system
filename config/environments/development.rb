@@ -1,10 +1,6 @@
 require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
-  # Settings specified here will take precedence over those in config/application.rb.
-
-  # In the development environment your application's code is reloaded any time
-  # it changes. This slows down response time but is perfect for development
   # since you don't have to restart the web server when you make code changes.
   config.enable_reloading = true
 
@@ -12,12 +8,16 @@ Rails.application.configure do
   config.eager_load = false
 
   # Show full error reports.
-  # Set to false to test custom error pages in development
   config.consider_all_requests_local = true
 
   # Enable server timing
   config.server_timing = true
-  config.hosts << "cef03303648a6563d4f3c2588ef0c5e7.serveo.net"
+  # Allow trusted hosts from environment variables for local development tunneling
+  if ENV['DEVELOPMENT_HOSTS'].present?
+    ENV['DEVELOPMENT_HOSTS'].split(',').each do |host|
+      config.hosts << host.strip
+    end
+  end
 
   # Enable/disable caching. By default caching is disabled.
   # Run rails dev:cache to toggle caching.
