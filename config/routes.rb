@@ -1,6 +1,12 @@
 Rails.application.routes.draw do
   mount Rswag::Ui::Engine => '/api-docs'
   mount Rswag::Api::Engine => '/api-docs'
+  
+  # Mount letter_opener_web for development email viewing
+  if Rails.env.development?
+    mount LetterOpenerWeb::Engine, at: "/letter_opener"
+  end
+  
   # Default Devise routes for users (login, password reset, etc.)
   # Skip registrations since we use custom admin registration and API for regular users
   devise_for :users, controllers: {

@@ -44,12 +44,19 @@ Rails.application.configure do
   config.action_mailer.perform_caching = false
 
   # Configure default URL options for Devise
-  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+  config.action_mailer.default_url_options = { host: 'localhost', port: 4000 }
   
   # Email delivery configuration for development
-  # Use letter_opener to preview emails in browser during development
-  config.action_mailer.delivery_method = :letter_opener
+  # Use letter_opener_web for Docker-friendly email viewing
+  config.action_mailer.delivery_method = :letter_opener_web
   config.action_mailer.perform_deliveries = true
+  
+  # Alternative: Use letter_opener (may cause browser issues in Docker)
+  # config.action_mailer.delivery_method = :letter_opener
+  # LetterOpener.configure do |config|
+  #   config.location = Rails.root.join('tmp', 'letter_opener')
+  #   config.auto_open = false
+  # end
   
   # Alternative: Use file delivery to save emails to tmp/mail for development testing
   # config.action_mailer.delivery_method = :file

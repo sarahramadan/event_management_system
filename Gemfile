@@ -70,6 +70,9 @@ group :development do
   
   # Preview emails in browser during development [https://github.com/ryanb/letter_opener]
   gem "letter_opener"
+  
+  # Web interface for letter_opener - perfect for Docker [https://github.com/fgrehm/letter_opener_web]
+  gem "letter_opener_web"
 
   # API documentation
   gem 'rspec-rails'

@@ -41,7 +41,7 @@ services:
     volumes:
       - .:/rails:cached
       - bundle_cache:/usr/local/bundle
-      - rails_tmp:/rails/tmp
+      - ./tmp:/rails/tmp
       - rails_log:/rails/log
       - rails_storage:/rails/storage
     ports:
@@ -56,6 +56,5 @@ services:
 volumes:
   postgres_data:
   bundle_cache:
-  rails_tmp:
   rails_log:
   rails_storage:
